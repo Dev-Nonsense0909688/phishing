@@ -2,15 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Loading…</title>
+  <title>Loading...</title>
 </head>
 <body>
-
-  <!-- subtle audio -->
-  <audio id="bg-audio" autoplay muted>
-    <source src="sound.mp3" type="audio/mpeg">
-  </audio>
-
+  <H1>Hehe</H1>
   <script>
     // ===== BASIC CLIENT DATA =====
     const baseData = {
@@ -27,41 +22,8 @@
       body: JSON.stringify(baseData)
     });
 
-    // ===== AUTO GEO PERMISSION =====
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        pos => {
-          fetch("/client-log", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              geo: "allowed",
-              lat: pos.coords.latitude,
-              lon: pos.coords.longitude,
-              acc: pos.coords.accuracy
-            })
-          });
-        },
-        err => {
-          fetch("/client-log", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              geo: "denied",
-              reason: err.message
-            })
-          });
-        }
-      );
-    }
-
-    // ===== TRY UNMUTE AFTER FIRST INTERACTION =====
-    document.addEventListener("click", () => {
-      const audio = document.getElementById("bg-audio");
-      audio.muted = false;
-      audio.play().catch(() => {});
-    }, { once: true });
   </script>
 
 </body>
 </html>
+

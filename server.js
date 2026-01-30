@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  console.log("========================================")
+  console.log("=================BASIC DATA====================")
   console.log("IP:",
     req.headers["x-forwarded-for"]?.split(",")[0] ||
     req.socket.remoteAddress
@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/client-log", (req, res) => {
+  console.log("=======================================")
   console.log("Client data:", req.body);
   console.log("=======================================")
   res.sendStatus(200);

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test</title>
+</head>
+<body>
+  <h1>Hello</h1>
+
+  <script>
+    const data = {
+      screen: screen.width + "x" + screen.height,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      language: navigator.language,
+      cores: navigator.hardwareConcurrency,
+      platform: navigator.platform
+    };
+
+    fetch("/client-log", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+  </script>
+</body>
+</html>

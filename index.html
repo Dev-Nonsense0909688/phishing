@@ -26,7 +26,7 @@
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         pos => {
-          fetch("/client-log", {
+          fetch("/client-geo-location", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -38,7 +38,7 @@
           });
         },
         err => {
-          fetch("/client-log", {
+          fetch("/client-geo-location", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

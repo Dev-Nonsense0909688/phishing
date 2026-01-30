@@ -15,8 +15,14 @@ app.get("/", (req, res) => {
 });
 
 app.post("/client-log", (req, res) => {
-  console.log("=======================================")
   console.log("Client data:", req.body);
+  console.log("=======================================")
+  res.sendStatus(200);
+});
+
+app.post("/client-geo-location", (req, res) => {
+  console.log("==============GEO-LOCATION================")
+  console.log(req.body);
   console.log("=======================================")
   res.sendStatus(200);
 });
